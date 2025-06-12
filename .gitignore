@@ -1,0 +1,30 @@
+# Virtual Environment
+venv/
+.venv/
+
+# Python cache
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+
+# IDE / Editor specific files
+.vscode/
+.idea/
+
+# Sensitive files (VERY IMPORTANT)
+# Add the exact name of your Firebase service account key JSON file below
+medi-go-eb65e-firebase-adminsdk-fbsvc-1b2efd27d3.json
+serviceAccountKey.json # General name, just in case
+*.json # Be careful with this, it ignores ALL .json files.
+       # If you have other .json files you WANT to commit, be more specific
+       # or remove this line and only list sensitive .json files.
+       # For now, let's assume your service key is the main .json to ignore.
+
+# OS specific
+.DS_Store
+Thumbs.db
+
+# Uploaded media (if stored locally and large, and you don't want them in git)
+# For example, if the qr_images become very large or numerous:
+# qr_images/
