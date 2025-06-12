@@ -1,160 +1,160 @@
 <!DOCTYPE html>
 <html lang="ar" dir="rtl">
 <head>
-    <meta charset="UTF-8">
-    <meta http-equiv="Content-Language" content="ar">
-    <title>MediGO - بطاقة الطوارئ</title>
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;600&display=swap" rel="stylesheet">
-    <style>
-        body {
-            font-family: 'Cairo', sans-serif;
-            background: linear-gradient(to bottom right, #e3f2fd, #ffffff);
-            margin: 0;
-            padding: 0;
-            direction: rtl;
-        }
+  <meta charset="UTF-8">
+  <meta http-equiv="Content-Language" content="ar">
+  <title>MediGO - بطاقة الطوارئ</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;600&display=swap" rel="stylesheet">
+  <style>
+    body {
+      font-family: 'Cairo', sans-serif;
+      background: linear-gradient(to bottom right, #e3f2fd, #ffffff);
+      margin: 0;
+      padding: 0;
+      direction: rtl;
+    }
 
-        .container {
-            max-width: 600px;
-            background: #ffffff;
-            margin: 80px auto;
-            padding: 30px;
-            border-radius: 15px;
-            box-shadow: 0 12px 24px rgba(0, 0, 0, 0.1);
-            text-align: center;
-        }
+    .container {
+      max-width: 600px;
+      background: #ffffff;
+      margin: 80px auto;
+      padding: 30px;
+      border-radius: 15px;
+      box-shadow: 0 12px 24px rgba(0, 0, 0, 0.1);
+      text-align: center;
+    }
 
-        .logo {
-            width: 100px;
-            margin-bottom: 15px;
-        }
+    .logo {
+      width: 100px;
+      margin-bottom: 15px;
+    }
 
-        h1 {
-            margin: 10px 0 5px;
-            color: #1565c0;
-            font-weight: 600;
-        }
+    h1 {
+      margin: 10px 0 5px;
+      color: #1565c0;
+      font-weight: 600;
+    }
 
-        .subtitle {
-            color: #444;
-            margin-bottom: 20px;
-            font-size: 1rem;
-        }
+    .subtitle {
+      color: #444;
+      margin-bottom: 20px;
+      font-size: 1rem;
+    }
 
-        .flag {
-            width: 50px;
-            margin-bottom: 20px;
-        }
+    input[type="text"] {
+      width: 100%;
+      padding: 12px;
+      font-size: 1rem;
+      border: 1px solid #ccc;
+      border-radius: 8px;
+      margin-top: 10px;
+      margin-bottom: 20px;
+      box-sizing: border-box;
+    }
 
-        input[type="text"] {
-            width: 100%;
-            padding: 12px;
-            font-size: 1rem;
-            border: 1px solid #ccc;
-            border-radius: 8px;
-            margin-top: 10px;
-            margin-bottom: 20px;
-            box-sizing: border-box;
-        }
+    button {
+      background-color: #1976d2;
+      color: white;
+      border: none;
+      padding: 12px 24px;
+      font-size: 1rem;
+      border-radius: 8px;
+      cursor: pointer;
+      transition: background-color 0.3s ease;
+    }
 
-        button {
-            background-color: #1976d2;
-            color: white;
-            border: none;
-            padding: 12px 24px;
-            font-size: 1rem;
-            border-radius: 8px;
-            cursor: pointer;
-            transition: background-color 0.3s ease;
-        }
+    button:hover {
+      background-color: #0d47a1;
+    }
 
-        button:hover {
-            background-color: #0d47a1;
-        }
+    iframe {
+      width: 100%;
+      height: 2000px;
+      border: none;
+      margin-top: 30px;
+      display: none;
+    }
 
-        iframe {
-            width: 100%;
-            height: 2000px;
-            border: none;
-            margin-top: 30px;
-            display: none;
-        }
-
-        #loading-text {
-            display: none;
-            font-size: 1.1rem;
-            color: #555;
-        }
-    </style>
+    #loading-text {
+      display: none;
+      font-size: 1.1rem;
+      color: #555;
+    }
+  </style>
 </head>
 <body>
-    <div class="container">
-        <img src="medi_go_logo.png" alt="MediGO Logo" class="logo">
-        <h1>مرحبا بك في MediGO</h1>
-        <p class="subtitle">بطاقة طوارئ طبية لخدمة المصابين وفرق الإسعاف في مصر</p>
-        <input type="text" id="userIdInput" placeholder="ادخل الرقم القومي للمريض" maxlength="14">
-        <button onclick="showCard()">عرض البيانات</button>
+  <div class="container">
+    <img src="medi_go_logo.png" alt="MediGO Logo" class="logo">
+    <h1>مرحبا بك في MediGO</h1>
+    <p class="subtitle">بطاقة طوارئ طبية لخدمة المصابين وفرق الإسعاف في مصر</p>
 
-        <p id="loading-text">جاري تحميل البطاقة...</p>
-        <iframe id="cardFrame"></iframe>
-    </div>
+    <input type="text" id="userIdInput" placeholder="ادخل الرقم القومي للمريض" maxlength="14">
+    <button onclick="showCard()">عرض البيانات</button>
 
-    <script>
-        function getUserIdFromUrl() {
-            const urlParams = new URLSearchParams(window.location.search);
-            let userId = urlParams.get("user_id");
+    <p id="loading-text">⏳ جاري تحميل البطاقة...</p>
+    <iframe id="cardFrame"></iframe>
+  </div>
 
-            // ✅ لو مش موجود في query، نحاول نجيبه من path
-            if (!userId) {
-                const pathParts = window.location.pathname.split('/');
-                const lastPart = pathParts[pathParts.length - 1];
-                if (/^\d{14}$/.test(lastPart)) {
-                    userId = lastPart;
-                }
-            }
+  <script>
+    function getUserIdFromUrl() {
+      const urlParams = new URLSearchParams(window.location.search);
+      let userId = urlParams.get("user_id");
 
-            return userId;
+      // ✅ إذا لم يُوجد كـ query param نحاول نجيبه من path
+      if (!userId) {
+        const pathParts = window.location.pathname.split('/');
+        const lastPart = pathParts[pathParts.length - 1];
+        if (/^\d{14}$/.test(lastPart)) {
+          userId = lastPart;
         }
+      }
 
-        function showCard() {
-            const userId = document.getElementById("userIdInput").value.trim();
-            if (!/^\d{14}$/.test(userId)) {
-                alert("الرقم القومي يجب أن يتكون من 14 رقمًا.");
-                return;
-            }
+      return userId;
+    }
 
-            const frame = document.getElementById("cardFrame");
-            const loading = document.getElementById("loading-text");
+    function showCard() {
+      const userId = document.getElementById("userIdInput").value.trim();
+      if (!/^\d{14}$/.test(userId)) {
+        alert("⚠️ الرقم القومي يجب أن يتكون من 14 رقمًا.");
+        return;
+      }
 
-            loading.style.display = "block";
-            frame.style.display = "none";
-            frame.src = `card/emergency_card.html?user_id=${userId}`;
+      const frame = document.getElementById("cardFrame");
+      const loading = document.getElementById("loading-text");
 
-            frame.onload = () => {
-                loading.style.display = "none";
-                frame.style.display = "block";
-            };
+      loading.style.display = "block";
+      frame.style.display = "none";
 
-            frame.onerror = () => {
-                loading.style.display = "none";
-                alert("تعذر تحميل البطاقة. تأكد من الرقم القومي.");
-            };
-        }
+      // ✅ نستخدم المسار النسبي
+      frame.src = `/card/emergency_card.html?user_id=${userId}`;
 
-        window.onload = function () {
-            const userId = getUserIdFromUrl();
-            if (userId) {
-                document.getElementById("userIdInput").value = userId;
-                showCard();
-            }
-        };
+      frame.onload = () => {
+        loading.style.display = "none";
+        frame.style.display = "block";
+      };
 
-        document.getElementById("userIdInput").addEventListener("keydown", function (event) {
-            if (event.key === "Enter") {
-                showCard();
-            }
-        });
-    </script>
+      frame.onerror = () => {
+        loading.style.display = "none";
+        alert("❌ تعذر تحميل البطاقة. تأكد من الرقم القومي.");
+      };
+    }
+
+    window.onload = function () {
+      const userId = getUserIdFromUrl();
+      if (userId) {
+        document.getElementById("userIdInput").value = userId;
+        document.getElementById("userIdInput").style.display = "none";
+        document.querySelector("button").style.display = "none";
+        showCard();
+      }
+    };
+
+    document.getElementById("userIdInput").addEventListener("keydown", function (event) {
+      if (event.key === "Enter") {
+        showCard();
+      }
+    });
+  </script>
 </body>
 </html>
