@@ -66,7 +66,7 @@
         if (!userId) { return; }
 
         try {
-            const response = await fetch(`https://medigo.onrender.com/qrcode/${userId}`);
+            const response = await fetch(`https://emergency-208q.onrender.com/qrcode/${userId}`);
             if (!response.ok) throw new Error(`Failed to fetch: ${response.status}`);
 
             const data = await response.json();
